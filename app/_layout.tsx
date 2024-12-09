@@ -26,7 +26,7 @@ const RootLayout = () => {
           }}
         />
         <Tabs.Screen
-          name="characters/index" // Assurez-vous que cette route est correcte
+          name="characters/index"
           options={{
             tabBarIcon: ({ color, size }) => (
               <FontAwesome name="users" size={28} color={color} />
@@ -59,7 +59,7 @@ const RootLayout = () => {
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: "#1C1C1E",
+    backgroundColor: "#030D16",
     borderTopWidth: 1,
     borderTopColor: "#545458",
     paddingBottom: 20,

@@ -7,6 +7,7 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import { useData } from "../../context/DataContext";
 import { Champion } from "@/types/types";
@@ -50,26 +51,36 @@ const Characters = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderItem}
-        numColumns={2}
-        contentContainerStyle={styles.flatListContent}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
+    <ImageBackground
+      source={require("../../assets/images/dark-illustration.png")}
+      style={styles.backgroundImage}
+      resizeMode="cover"
+    >
+      <View style={styles.container}>
+        <Text style={styles.text}>Champions</Text>
+        <FlatList
+          data={data}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+          numColumns={2}
+          contentContainerStyle={styles.flatListContent}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 20,
-    backgroundColor: "#000000",
+    paddingTop: 100,
     flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "center",
+  },
+  text: {
+    fontSize: 38,
+    color: "#ffffff",
+    textAlign: "center",
+    marginBottom: 30,
   },
   flatListContent: {
     paddingHorizontal: 10,
@@ -89,11 +100,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#1C1C1E",
     borderRadius: 15,
     overflow: "hidden",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 8,
+    shadowColor: "C19D4D",
+    shadowOffset: { width: 0, height: 4 }, // Ajustez selon vos besoins
+    shadowOpacity: 0.3, // Entre 0 et 1
+    shadowRadius: 6, // Rayon de flou
     position: "relative",
     justifyContent: "flex-end",
     alignItems: "center",
@@ -102,15 +112,15 @@ const styles = StyleSheet.create({
     height: 300,
   },
   championImage: {
-    width: "100%",
-    height: "110%",
+    width: "130%",
+    height: "130%",
     borderRadius: 10,
     marginBottom: 10,
     position: "absolute",
     top: 0,
     left: 0,
     zIndex: 0,
-    resizeMode: "center",
+    resizeMode: "cover",
   },
   textContainer: {
     position: "absolute",
@@ -126,6 +136,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 18,
     color: "#EEE6D4",
+  },
+  backgroundImage: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
   },
   championTitle: {
     fontSize: 14,
