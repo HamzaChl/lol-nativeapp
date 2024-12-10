@@ -9,7 +9,7 @@ const RootLayout = () => {
     <DataProvider>
       <Tabs
         screenOptions={{
-          headerShown: false,
+          headerShown: true,
           tabBarStyle: styles.tabBar,
           tabBarActiveTintColor: "#C19D4D",
           tabBarInactiveTintColor: "#545458",

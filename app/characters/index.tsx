@@ -72,7 +72,7 @@ const Characters = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 100,
+    paddingTop: 40,
     flex: 1,
   },
   text: {
@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   championCard: {
-    flex: 1,
     margin: 10,
     backgroundColor: "#1C1C1E",
     borderRadius: 15,
@@ -93,7 +92,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
     padding: 15,
-    width: 180,
+    width: "45%",
     height: 300,
   },
   championImage: {
@@ -119,8 +118,10 @@ const styles = StyleSheet.create({
   },
   championName: {
     fontWeight: "bold",
+    fontFamily: "BeaufortforLOL-Bold",
     fontSize: 18,
-    color: "#EEE6D4",
+    color: "#C19D4D",
+    textAlign: "center",
   },
   backgroundImage: {
     flex: 1,
@@ -129,7 +130,9 @@ const styles = StyleSheet.create({
   },
   championTitle: {
     fontSize: 14,
-    color: "#C19D4D",
+    color: "#EDE6D4",
+    opacity: 0.6,
+    textAlign: "center",
   },
   favoriteIcon: {
     position: "absolute",
