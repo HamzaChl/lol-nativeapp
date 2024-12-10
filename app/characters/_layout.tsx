@@ -5,7 +5,7 @@ const CharactersLayout = () => {
   return (
     <Stack
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         headerStyle: styles.header,
         headerTitleStyle: styles.headerTitle,
         headerTintColor: "#C19D4D",

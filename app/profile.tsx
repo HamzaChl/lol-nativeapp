@@ -1,19 +1,39 @@
 import React from "react";
-import { View, Text } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
 
-const profile = () => {
+const Profile = () => {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#000000",
-      }}
-    >
-      <Text>Profile.</Text>
+    <View style={styles.container}>
+      <Text style={styles.text}>Profiel</Text>
     </View>
   );
 };
 
-export default profile;
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 30,
+    flex: 1,
+  },
+  text: {
+    fontSize: 23,
+    color: "#000000",
+    fontWeight: "bold",
+    marginBottom: 30,
+    marginLeft: 20,
+  },
+  backgroundImage: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+  },
+});
+
+export default Profile;

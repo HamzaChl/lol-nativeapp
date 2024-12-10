@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,16 +8,39 @@ import {
   Image,
   ImageBackground,
 } from "react-native";
+import { router, useLocalSearchParams } from "expo-router";
 import { useData } from "../../context/DataContext";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { router } from "expo-router";
+
+const CLASSES = [
+  "All",
+  "Tank",
+  "Mage",
+  "Assassin",
+  "Marksman",
+  "Support",
+  "Fighter",
+];
 
 const Characters = () => {
   const { data, toggleFavorite, favorites } = useData();
+  const { class: selectedClass } = useLocalSearchParams();
+  const [currentClass, setCurrentClass] = useState(
+    typeof selectedClass === "string" ? selectedClass : "All"
+  );
 
   const handlePress = (id: number) => {
     router.push(`/characters/${id}`);
   };
+
+  const filteredData =
+    currentClass === "All"
+      ? data || []
+      : (data || []).filter((item) =>
+          item.tags?.some(
+            (tag) => tag.toLowerCase() === currentClass.toLowerCase()
+          )
+        );
 
   const renderItem = ({ item }: { item: any }) => {
     const isFavorite = favorites.includes(item.id);
@@ -50,36 +73,84 @@ const Characters = () => {
   };
 
   return (
-    <ImageBackground
-      source={require("../../assets/images/dark-illustration.png")}
-      style={styles.backgroundImage}
-      resizeMode="cover"
-    >
-      <View style={styles.container}>
-        <Text style={styles.text}>Champions</Text>
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderItem}
-          numColumns={2}
-          contentContainerStyle={styles.flatListContent}
-          showsVerticalScrollIndicator={false}
-        />
+    <View style={styles.container}>
+      <Text style={[styles.title, { fontFamily: "BeaufortforLOL-Bold" }]}>
+        CHAMPIONS
+      </Text>
+
+      <Text style={styles.text}>Filters</Text>
+      <View style={styles.classSelector}>
+        {CLASSES.map((className) => (
+          <TouchableOpacity
+            key={className}
+            style={[
+              styles.classButton,
+              currentClass === className && styles.activeClassButton,
+            ]}
+            onPress={() => setCurrentClass(className)}
+          >
+            <Text
+              style={[
+                styles.classButtonText,
+                currentClass === className && styles.activeClassButtonText,
+              ]}
+            >
+              {className}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
-    </ImageBackground>
+      <FlatList
+        data={filteredData}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderItem}
+        numColumns={2}
+        contentContainerStyle={styles.flatListContent}
+        showsVerticalScrollIndicator={false}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 40,
+    paddingTop: 30,
     flex: 1,
   },
   text: {
-    fontSize: 38,
-    color: "#ffffff",
-    textAlign: "center",
-    marginBottom: 30,
+    fontSize: 20,
+    color: "#1E1E1E",
+    fontWeight: "500",
+    marginBottom: 10,
+    marginLeft: 20,
+  },
+  classSelector: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginHorizontal: 10,
+    marginBottom: 20,
+    justifyContent: "flex-start",
+  },
+  classButton: {
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "#C19D4D",
+    borderRadius: 8,
+    margin: 5,
+    minWidth: "25%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  activeClassButton: {
+    backgroundColor: "#C19D4D",
+    color: "white",
+  },
+  classButtonText: {
+    fontSize: 14,
+    color: "#C19D4D",
+  },
+  activeClassButtonText: {
+    color: "#FFFFFF",
   },
   flatListContent: {
     paddingHorizontal: 10,
@@ -123,11 +194,6 @@ const styles = StyleSheet.create({
     color: "#C19D4D",
     textAlign: "center",
   },
-  backgroundImage: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-  },
   championTitle: {
     fontSize: 14,
     color: "#EDE6D4",
@@ -138,6 +204,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 10,
     right: 10,
+  },
+  title: {
+    color: "#C19D4D",
+    textAlign: "center",
+    fontSize: 40,
+    marginBottom: 20,
   },
 });
 

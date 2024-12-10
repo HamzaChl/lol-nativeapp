@@ -1,30 +1,94 @@
-import { Text, View, StyleSheet, ImageBackground } from "react-native";
+import React from "react";
+import { Link } from "expo-router";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
+
+const classes = [
+  { name: "Tank", icon: require("../assets/images/icons/tank.webp") },
+  { name: "Mage", icon: require("../assets/images/icons/mage.webp") },
+  {
+    name: "Controller",
+    icon: require("../assets/images/icons/controller.webp"),
+  },
+  { name: "Marksman", icon: require("../assets/images/icons/marksman.webp") },
+  { name: "Slayer", icon: require("../assets/images/icons/slayer.webp") },
+  { name: "Fighter", icon: require("../assets/images/icons/fighter.webp") },
+];
 
 const Index = () => {
   return (
-    <ImageBackground
-      source={require("../assets/images/dark-illustration.png")}
-      style={styles.backgroundImage}
-      resizeMode="cover"
-    >
-      <View style={styles.Container}>
-        <Text style={{ color: "white" }}>Home...</Text>
+    <View style={styles.container}>
+      <View style={styles.homeContainer}>
+        <Image
+          source={require("@/assets/images/home.jpg")}
+          style={styles.homeImage}
+        />
+        <View style={styles.classes}>
+          {classes.map((classItem) => (
+            <Link
+              key={classItem.name}
+              href={`/characters?class=${classItem.name}`}
+              asChild
+            >
+              <TouchableOpacity style={styles.classIcon}>
+                <Image
+                  source={classItem.icon}
+                  style={styles.iconImage}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            </Link>
+          ))}
+        </View>
       </View>
-    </ImageBackground>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  Container: {
-    backgroundColor: "#",
+  container: {
+    paddingTop: 30,
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
-  backgroundImage: {
-    flex: 1,
+  text: {
+    fontSize: 23,
+    color: "#000000",
+    fontWeight: "bold",
+    marginBottom: 30,
+    marginLeft: 20,
+  },
+  homeImage: {
     width: "100%",
-    height: "100%",
+    height: 300,
+    borderRadius: 15,
+    resizeMode: "cover",
+  },
+  homeContainer: {
+    paddingHorizontal: 20,
+  },
+  classes: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    marginTop: 20,
+  },
+  classIcon: {
+    margin: 5,
+    alignItems: "center",
+    backgroundColor: "#0F1922",
+    width: "30%",
+    borderRadius: 10,
+    padding: 10,
+  },
+  iconImage: {
+    width: 40,
+    height: 40,
   },
 });
 

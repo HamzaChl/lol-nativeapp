@@ -1,14 +1,31 @@
 import { Tabs } from "expo-router";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Image, View } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DataProvider } from "../context/DataContext";
+import { useFonts } from "expo-font";
 
 const RootLayout = () => {
+  const [fontsLoaded] = useFonts({
+    // Ajoutez vos polices ici
+    "BeaufortforLOL-Bold": require("../assets/fonts/BeaufortforLOL-Bold.ttf"),
+    "BeaufortforLOL-Medium": require("../assets/fonts/BeaufortforLOL-Medium.ttf"),
+  });
+
   return (
     <DataProvider>
       <Tabs
         screenOptions={{
-          headerShown: false,
+          headerShown: true,
+          headerStyle: styles.header,
+          headerTitleAlign: "left",
+          headerTitle: () => (
+            <View style={styles.headerContainer}>
+              <Image
+                source={require("../assets/images/logo.png")}
+                style={styles.headerImage}
+              />
+            </View>
+          ),
           tabBarStyle: styles.tabBar,
           tabBarActiveTintColor: "#C19D4D",
           tabBarInactiveTintColor: "#545458",
@@ -21,7 +38,6 @@ const RootLayout = () => {
             tabBarIcon: ({ color, size }) => (
               <FontAwesome name="home" size={34} color={color} />
             ),
-            headerTitle: "Home",
           }}
         />
         <Tabs.Screen
@@ -30,7 +46,6 @@ const RootLayout = () => {
             tabBarIcon: ({ color, size }) => (
               <FontAwesome name="users" size={28} color={color} />
             ),
-            headerTitle: "Champions",
           }}
         />
         <Tabs.Screen
@@ -39,16 +54,14 @@ const RootLayout = () => {
             tabBarIcon: ({ color, size }) => (
               <FontAwesome name="heart" size={26} color={color} />
             ),
-            headerTitle: "Favorieten",
           }}
         />
         <Tabs.Screen
           name="profile"
           options={{
             tabBarIcon: ({ color, size }) => (
-              <FontAwesome name="user" size={34} color={color} />
+              <FontAwesome name="user-circle-o" size={24} color={color} />
             ),
-            headerTitle: "Profiel",
           }}
         />
       </Tabs>
@@ -58,12 +71,28 @@ const RootLayout = () => {
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: "#030D16",
-    borderTopWidth: 1,
-    borderTopColor: "#545458",
+    backgroundColor: "#0F1922",
+    borderTopWidth: 2,
+    borderTopColor: "#C19D4D",
     paddingBottom: 20,
     paddingTop: 20,
     height: 110,
+    zIndex: 10,
+  },
+  header: {
+    height: 130,
+  },
+  headerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingLeft: 10,
+    width: "100%",
+  },
+  headerImage: {
+    width: 100,
+    height: 50,
+    resizeMode: "contain",
   },
 });
 

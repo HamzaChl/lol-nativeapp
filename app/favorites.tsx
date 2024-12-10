@@ -39,35 +39,32 @@ const Favorites = () => {
   );
 
   return (
-    <ImageBackground
-      source={require("../assets/images/dark-illustration.png")}
-      style={styles.backgroundImage}
-      resizeMode="cover"
-    >
-      <View style={styles.container}>
-        <Text style={styles.text}>Favorites</Text>
-        <FlatList
-          data={favoriteChampions}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderItem}
-          numColumns={2}
-          contentContainerStyle={styles.flatListContent}
-        />
-      </View>
-    </ImageBackground>
+    <View style={styles.container}>
+      <Text style={[styles.title, { fontFamily: "BeaufortforLOL-Bold" }]}>
+        FAVORITES
+      </Text>
+      <FlatList
+        data={favoriteChampions}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderItem}
+        numColumns={2}
+        contentContainerStyle={styles.flatListContent}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 40,
+    paddingTop: 30,
     flex: 1,
   },
   text: {
-    fontSize: 38,
-    color: "#ffffff",
-    textAlign: "center",
+    fontSize: 23,
+    color: "#000000",
+    fontWeight: "bold",
     marginBottom: 30,
+    marginLeft: 20,
   },
   flatListContent: {
     paddingHorizontal: 10,
@@ -126,6 +123,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 10,
     right: 10,
+  },
+  title: {
+    color: "#C19D4D",
+    textAlign: "center",
+    fontSize: 40,
+    marginBottom: 40,
   },
 });
 

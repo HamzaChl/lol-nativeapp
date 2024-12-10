@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useData } from "../../context/DataContext";
 
@@ -17,43 +17,54 @@ const ChampionDetails = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <Image source={{ uri: champion.image.loading }} style={styles.image} />
-      <Text style={styles.name}>{champion.name}</Text>
-      <Text style={styles.title}>{champion.title}</Text>
-      {/* Vérifiez que la propriété description existe avant de l'utiliser */}
-      {champion.blurb && (
-        <Text style={styles.description}>{champion.blurb}</Text>
-      )}
-    </View>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.header}>
+        <Image source={{ uri: champion.image.full }} style={styles.image} />
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.name}>{champion.name}</Text>
+        <Text style={styles.title}>{champion.title}</Text>
+        {champion.blurb && (
+          <Text style={styles.description}>{champion.blurb}</Text>
+        )}
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: "#030D16",
+    backgroundColor: "#ffffff",
+    padding: 10,
+  },
+  header: {
+    alignItems: "center",
+    marginTop: 20,
   },
   image: {
     width: "100%",
     height: 300,
     borderRadius: 15,
-    marginBottom: 20,
+    resizeMode: "cover",
+  },
+  textContainer: {
+    padding: 20,
   },
   name: {
     fontSize: 24,
     fontWeight: "bold",
     color: "#C19D4D",
+    marginBottom: 10,
   },
   title: {
     fontSize: 18,
-    color: "#EEE6D4",
+    color: "#1E1E1E",
     marginBottom: 10,
   },
   description: {
     fontSize: 16,
-    color: "#EEE6D4",
+    color: "#939393",
   },
   errorText: {
     fontSize: 18,
