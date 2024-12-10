@@ -2,53 +2,52 @@ import React from "react";
 import {
   View,
   Text,
-  ActivityIndicator,
   StyleSheet,
-  Image,
   FlatList,
   TouchableOpacity,
+  Image,
   ImageBackground,
 } from "react-native";
 import { useData } from "../../context/DataContext";
-import { Champion } from "@/types/types";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { useRouter } from "expo-router";
+import { router } from "expo-router";
 
 const Characters = () => {
-  const { data } = useData();
-  const router = useRouter();
-
-  if (!data) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#C19D4D" />
-        <Text style={styles.loadingText}>Loading...</Text>
-      </View>
-    );
-  }
+  const { data, toggleFavorite, favorites } = useData();
 
   const handlePress = (id: number) => {
     router.push(`/characters/${id}`);
   };
 
-  const renderItem = ({ item }: { item: Champion }) => (
-    <TouchableOpacity
-      style={styles.championCard}
-      onPress={() => handlePress(item.id)}
-    >
-      <Image
-        source={{ uri: item.image.loading }} // Remplacez `loading` par la clé correcte
-        style={styles.championImage}
-      />
-      <View style={styles.textContainer}>
-        <Text style={styles.championName}>{item.name}</Text>
-        <Text style={styles.championTitle}>{item.title}</Text>
-      </View>
-      <TouchableOpacity style={styles.favoriteIcon}>
-        <FontAwesome name="heart-o" size={26} color="#C19D4D" />
+  const renderItem = ({ item }: { item: any }) => {
+    const isFavorite = favorites.includes(item.id);
+
+    return (
+      <TouchableOpacity
+        style={styles.championCard}
+        onPress={() => handlePress(item.id)}
+      >
+        <Image
+          source={{ uri: item.image.loading }}
+          style={styles.championImage}
+        />
+        <View style={styles.textContainer}>
+          <Text style={styles.championName}>{item.name}</Text>
+          <Text style={styles.championTitle}>{item.title}</Text>
+        </View>
+        <TouchableOpacity
+          style={styles.favoriteIcon}
+          onPress={() => toggleFavorite(item.id)}
+        >
+          <FontAwesome
+            name={isFavorite ? "heart" : "heart-o"}
+            size={26}
+            color={isFavorite ? "red" : "#C19D4D"}
+          />
+        </TouchableOpacity>
       </TouchableOpacity>
-    </TouchableOpacity>
-  );
+    );
+  };
 
   return (
     <ImageBackground
@@ -85,26 +84,12 @@ const styles = StyleSheet.create({
   flatListContent: {
     paddingHorizontal: 10,
   },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loadingText: {
-    marginTop: 10,
-    color: "#C19D4D",
-  },
   championCard: {
     flex: 1,
     margin: 10,
     backgroundColor: "#1C1C1E",
     borderRadius: 15,
     overflow: "hidden",
-    shadowColor: "C19D4D",
-    shadowOffset: { width: 0, height: 4 }, // Ajustez selon vos besoins
-    shadowOpacity: 0.3, // Entre 0 et 1
-    shadowRadius: 6, // Rayon de flou
-    position: "relative",
     justifyContent: "flex-end",
     alignItems: "center",
     padding: 15,
