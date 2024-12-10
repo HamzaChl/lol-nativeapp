@@ -1,27 +1,30 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { useData } from "@/context/DataContext";
+import { useData } from "../../context/DataContext";
 
-const DetailsPage = () => {
-  const { id } = useLocalSearchParams();
+const ChampionDetails = () => {
+  const { id } = useLocalSearchParams(); // Récupère l'ID depuis l'URL
   const { data } = useData();
-
-  const champion = data?.find((champion) => champion.id === Number(id));
+  const champion = data?.find((champion) => champion.id.toString() === id);
 
   if (!champion) {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>Champion niet gevonden</Text>
+        <Text style={styles.errorText}>Champion not found</Text>
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
+      <Image source={{ uri: champion.image.loading }} style={styles.image} />
       <Text style={styles.name}>{champion.name}</Text>
       <Text style={styles.title}>{champion.title}</Text>
-      <Image source={{ uri: champion.image.loading }} style={styles.image} />
+      {/* Vérifiez que la propriété description existe avant de l'utiliser */}
+      {champion.blurb && (
+        <Text style={styles.description}>{champion.blurb}</Text>
+      )}
     </View>
   );
 };
@@ -29,30 +32,34 @@ const DetailsPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000000",
     padding: 20,
-  },
-  name: {
-    fontSize: 32,
-    color: "white",
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  title: {
-    fontSize: 20,
-    color: "#AAA",
-    marginBottom: 20,
+    backgroundColor: "#030D16",
   },
   image: {
     width: "100%",
-    height: 600,
-    resizeMode: "contain",
+    height: 300,
+    borderRadius: 15,
     marginBottom: 20,
   },
-  text: {
+  name: {
     fontSize: 24,
+    fontWeight: "bold",
+    color: "#C19D4D",
+  },
+  title: {
+    fontSize: 18,
     color: "#EEE6D4",
+    marginBottom: 10,
+  },
+  description: {
+    fontSize: 16,
+    color: "#EEE6D4",
+  },
+  errorText: {
+    fontSize: 18,
+    color: "#C19D4D",
+    textAlign: "center",
   },
 });
 
-export default DetailsPage;
+export default ChampionDetails;

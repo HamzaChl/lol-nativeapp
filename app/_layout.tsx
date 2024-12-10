@@ -1,15 +1,14 @@
-// app/_layout.tsx
 import { Tabs } from "expo-router";
 import { StyleSheet } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { DataProvider } from "../context/DataContext"; // Chemin vers votre fichier DataContext.ts
+import { DataProvider } from "../context/DataContext";
 
 const RootLayout = () => {
   return (
     <DataProvider>
       <Tabs
         screenOptions={{
-          headerShown: true,
+          headerShown: false,
           tabBarStyle: styles.tabBar,
           tabBarActiveTintColor: "#C19D4D",
           tabBarInactiveTintColor: "#545458",
@@ -26,7 +25,7 @@ const RootLayout = () => {
           }}
         />
         <Tabs.Screen
-          name="characters/index"
+          name="characters"
           options={{
             tabBarIcon: ({ color, size }) => (
               <FontAwesome name="users" size={28} color={color} />
