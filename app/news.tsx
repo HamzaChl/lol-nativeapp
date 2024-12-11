@@ -1,17 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, Image, FlatList } from "react-native";
 
 const News = () => {
   const [newsData, setNewsData] = useState<any[]>([]);
 
-  // Récupérer les données JSON depuis GitHub
   useEffect(() => {
     fetch(
       "https://raw.githubusercontent.com/HamzaChl/lol-nativejson/refs/heads/main/news.json"
@@ -21,7 +13,6 @@ const News = () => {
       .catch((error) => console.error("Error fetching news data:", error));
   }, []);
 
-  // Fonction pour rendre chaque carte de news
   const renderItem = ({ item }: { item: any }) => (
     <View style={styles.card}>
       <Image source={{ uri: item.newsImg }} style={styles.newsImage} />

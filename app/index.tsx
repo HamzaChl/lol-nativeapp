@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import {
   Text,
   View,
@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   ImageBackground,
+  ScrollView,
 } from "react-native";
 
 const classes = [
@@ -22,35 +23,67 @@ const classes = [
 ];
 
 const Index = () => {
+  const handlePress = () => {
+    router.push(`/characters`);
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.homeContainer}>
-        <Image
-          source={require("@/assets/images/home.jpg")}
-          style={styles.homeImage}
-        />
-        <View style={styles.classes}>
-          {classes.map((classItem) => (
-            <Link
-              key={classItem.name}
-              href={`/characters?class=${classItem.name}`}
-              asChild
+    <ScrollView>
+      <View style={styles.container}>
+        <View style={styles.homeContainer}>
+          <Image
+            source={require("@/assets/images/home.jpg")}
+            style={styles.homeImage}
+          />
+          <View style={styles.classes}>
+            {classes.map((classItem) => (
+              <Link
+                key={classItem.name}
+                href={`/characters?class=${classItem.name}`}
+                asChild
+              >
+                <TouchableOpacity style={styles.classIcon}>
+                  <Image
+                    source={classItem.icon}
+                    style={styles.iconImage}
+                    resizeMode="contain"
+                  />
+                </TouchableOpacity>
+              </Link>
+            ))}
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.subTitle}>CHOOSE YOUR</Text>
+            <Text style={[styles.title, { fontFamily: "BeaufortforLOL-Bold" }]}>
+              CHAMPION
+            </Text>
+            <Text style={styles.corpseText}>
+              Whether you like to dive straight into the fray, support your
+              teammates, or something in between, there’s a spot for you on the
+              Rift.
+            </Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => handlePress()}
             >
-              <TouchableOpacity style={styles.classIcon}>
-                <Image
-                  source={classItem.icon}
-                  style={styles.iconImage}
-                  resizeMode="contain"
-                />
-              </TouchableOpacity>
-            </Link>
-          ))}
+              <View>
+                <Text
+                  style={[
+                    styles.buttonText,
+                    { fontFamily: "BeaufortforLOL-Bold" },
+                  ]}
+                >
+                  Discover More Champions
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <Text style={[styles.title, { fontFamily: "BeaufortforLOL-Bold" }]}>
+            Latest news
+          </Text>
         </View>
-        {/* <Text style={[styles.title, { fontFamily: "BeaufortforLOL-Bold" }]}>
-          FAVORITES
-        </Text> */}
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -97,8 +130,35 @@ const styles = StyleSheet.create({
     color: "#C19D4D",
     textAlign: "center",
     fontSize: 40,
-    marginBottom: 40,
-    marginTop: 40,
+    marginBottom: 20,
+    marginTop: 10,
+    textTransform: "uppercase",
+  },
+  subTitle: {
+    textAlign: "center",
+    fontSize: 17,
+  },
+  textContainer: {
+    marginTop: 100,
+    textAlign: "center",
+  },
+  corpseText: {
+    textAlign: "center",
+    fontSize: 13,
+  },
+  button: {
+    height: 70,
+    backgroundColor: "#59C1DE",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 30,
+    marginBottom: 100,
+  },
+  buttonText: {
+    color: "#ffffff",
+    fontSize: 17,
+    textTransform: "uppercase",
   },
 });
 

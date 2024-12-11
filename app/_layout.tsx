@@ -6,7 +6,6 @@ import { useFonts } from "expo-font";
 
 const RootLayout = () => {
   const [fontsLoaded] = useFonts({
-    // Ajoutez vos polices ici
     "BeaufortforLOL-Bold": require("../assets/fonts/BeaufortforLOL-Bold.ttf"),
     "BeaufortforLOL-Medium": require("../assets/fonts/BeaufortforLOL-Medium.ttf"),
   });
@@ -24,6 +23,7 @@ const RootLayout = () => {
                 source={require("../assets/images/logo.png")}
                 style={styles.headerImage}
               />
+              <FontAwesome name="bell" size={24} color="#59C1DE" />
             </View>
           ),
           tabBarStyle: styles.tabBar,
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     paddingLeft: 10,
     width: "100%",
   },
