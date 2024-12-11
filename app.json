@@ -9,7 +9,11 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Cette application a besoin d'accéder à votre bibliothèque pour importer des images.",
+        "NSCameraUsageDescription": "Cette application a besoin d'accéder à votre appareil photo pour capturer des images."
+      }
     },
     "android": {
       "adaptiveIcon": {

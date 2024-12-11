@@ -145,18 +145,20 @@ const styles = StyleSheet.create({
   corpseText: {
     textAlign: "center",
     fontSize: 13,
+    color: "#939393",
   },
   button: {
     height: 70,
-    backgroundColor: "#59C1DE",
+    backgroundColor: "#0F1922",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     marginTop: 30,
     marginBottom: 100,
+    borderRadius: 10,
   },
   buttonText: {
-    color: "#ffffff",
+    color: "#C19D4D",
     fontSize: 17,
     textTransform: "uppercase",
   },

@@ -23,7 +23,7 @@ const RootLayout = () => {
                 source={require("../assets/images/logo.png")}
                 style={styles.headerImage}
               />
-              <FontAwesome name="bell" size={24} color="#59C1DE" />
+              <FontAwesome name="bell" size={24} color="#C19D4D" />
             </View>
           ),
           tabBarStyle: styles.tabBar,
