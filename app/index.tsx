@@ -46,9 +46,9 @@ const Index = () => {
             </Link>
           ))}
         </View>
-        <Text style={[styles.title, { fontFamily: "BeaufortforLOL-Bold" }]}>
+        {/* <Text style={[styles.title, { fontFamily: "BeaufortforLOL-Bold" }]}>
           FAVORITES
-        </Text>
+        </Text> */}
       </View>
     </View>
   );
