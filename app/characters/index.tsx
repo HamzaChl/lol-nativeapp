@@ -78,7 +78,7 @@ const Characters = () => {
         CHAMPIONS
       </Text>
 
-      <Text style={styles.text}>Filters</Text>
+      {/* <Text style={styles.text}>Filters</Text> */}
       <View style={styles.classSelector}>
         {CLASSES.map((className) => (
           <TouchableOpacity
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     marginHorizontal: 10,
     marginBottom: 20,
-    justifyContent: "flex-start",
+    justifyContent: "center",
   },
   classButton: {
     padding: 10,
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     borderColor: "#C19D4D",
     borderRadius: 8,
     margin: 5,
-    minWidth: "25%",
+    minWidth: "20%",
     alignItems: "center",
     justifyContent: "center",
   },

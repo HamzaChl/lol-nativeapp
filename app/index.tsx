@@ -46,6 +46,9 @@ const Index = () => {
             </Link>
           ))}
         </View>
+        <Text style={[styles.title, { fontFamily: "BeaufortforLOL-Bold" }]}>
+          FAVORITES
+        </Text>
       </View>
     </View>
   );
@@ -89,6 +92,13 @@ const styles = StyleSheet.create({
   iconImage: {
     width: 40,
     height: 40,
+  },
+  title: {
+    color: "#C19D4D",
+    textAlign: "center",
+    fontSize: 40,
+    marginBottom: 40,
+    marginTop: 40,
   },
 });
 

@@ -57,6 +57,14 @@ const RootLayout = () => {
           }}
         />
         <Tabs.Screen
+          name="news"
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <FontAwesome name="newspaper-o" size={26} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
           name="profile"
           options={{
             tabBarIcon: ({ color, size }) => (
