@@ -18,8 +18,6 @@ const ChampionDetails = () => {
     (champion) => champion.id.toString() === id?.toString()
   );
 
-  // Vérifie si le champion est déjà dans les favoris
-
   if (!champion) {
     return (
       <View style={styles.container}>
@@ -39,7 +37,6 @@ const ChampionDetails = () => {
         <Text style={styles.name}>{champion.name}</Text>
         <Text style={styles.title}>{champion.title}</Text>
 
-        {/* Bouton coeur pour ajouter/supprimer des favoris */}
         <TouchableOpacity
           style={styles.favoriteIcon}
           onPress={() => toggleFavorite(champion.id)}
@@ -58,7 +55,7 @@ const ChampionDetails = () => {
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Roles</Text>
+        <Text style={styles.sectionTitle}>Class</Text>
         <View style={styles.tagsContainer}>
           {champion.tags.map((tag) => (
             <View key={tag} style={styles.tag}>
@@ -135,10 +132,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 24,
     color: "#C19D4D",
     marginBottom: 10,
+    fontFamily: "BeaufortforLOL-Bold",
   },
   description: {
     fontSize: 16,
