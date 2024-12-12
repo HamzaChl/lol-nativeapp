@@ -1,12 +1,24 @@
-import React from "react";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useData } from "../../context/DataContext";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 const ChampionDetails = () => {
   const { id } = useLocalSearchParams();
-  const { data } = useData();
-  const champion = data?.find((champion) => champion.id.toString() === id);
+  const { data, toggleFavorite, favorites } = useData();
+  const champion = data?.find(
+    (champion) => champion.id.toString() === id?.toString()
+  );
+
+  // Vérifie si le champion est déjà dans les favoris
 
   if (!champion) {
     return (
@@ -15,6 +27,7 @@ const ChampionDetails = () => {
       </View>
     );
   }
+  const isFavorite = favorites.includes(champion.id);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -25,6 +38,18 @@ const ChampionDetails = () => {
         />
         <Text style={styles.name}>{champion.name}</Text>
         <Text style={styles.title}>{champion.title}</Text>
+
+        {/* Bouton coeur pour ajouter/supprimer des favoris */}
+        <TouchableOpacity
+          style={styles.favoriteIcon}
+          onPress={() => toggleFavorite(champion.id)}
+        >
+          <FontAwesome
+            name={isFavorite ? "heart" : "heart-o"}
+            size={26}
+            color={isFavorite ? "red" : "#C19D4D"}
+          />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.section}>
@@ -75,8 +100,8 @@ const ChampionDetails = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: "",
     padding: 30,
+    backgroundColor: "",
   },
   header: {
     alignItems: "center",
@@ -99,14 +124,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    color: "#EDE6D4",
+    color: "#939393",
     textAlign: "center",
     marginBottom: 10,
   },
   section: {
     marginBottom: 20,
     padding: 20,
-    backgroundColor: "#0F1922",
+    backgroundColor: "#ffffff",
     borderRadius: 10,
   },
   sectionTitle: {
@@ -117,7 +142,7 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 16,
-    color: "#EDE6D4",
+    color: "#939393",
   },
   tagsContainer: {
     flexDirection: "row",
@@ -141,7 +166,7 @@ const styles = StyleSheet.create({
   },
   attribute: {
     fontSize: 16,
-    color: "#EDE6D4",
+    color: "#939393",
     marginBottom: 5,
     width: "48%",
   },
@@ -159,8 +184,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   statValue: {
-    color: "#EDE6D4",
+    color: "#939393",
     fontSize: 14,
+  },
+  favoriteIcon: {
+    position: "absolute",
+    top: 10,
+    right: 10,
   },
   errorText: {
     fontSize: 18,

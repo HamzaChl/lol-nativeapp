@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "project-opdrachtWF",
-    "slug": "project-opdrachtWF",
+    "name": "Leauge Of Legends - Native app",
+    "slug": "Leauge Of Legends - Native app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/favicon.png",
     "scheme": "expo-template-typescript-router",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/logo.png",
         "backgroundColor": "#ffffff"
       }
     },

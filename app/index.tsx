@@ -6,10 +6,10 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  ScrollView,
   FlatList,
 } from "react-native";
 import { useData } from "../context/DataContext";
+import { ScrollView } from "react-native-virtualized-view";
 
 const classes = [
   { name: "Tank", icon: require("../assets/images/icons/tank.webp") },

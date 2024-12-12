@@ -6,8 +6,8 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  ScrollView,
 } from "react-native";
+import { ScrollView } from "react-native-virtualized-view";
 import { router, useLocalSearchParams } from "expo-router";
 import { useData } from "../../context/DataContext";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -27,7 +27,6 @@ const Characters = () => {
   const { class: selectedClass } = useLocalSearchParams();
   const [currentClass, setCurrentClass] = useState("All");
 
-  // Synchroniser currentClass avec selectedClass
   useEffect(() => {
     if (typeof selectedClass === "string") {
       setCurrentClass(selectedClass);
@@ -96,7 +95,7 @@ const Characters = () => {
               ]}
               onPress={() => {
                 router.push(`/characters?class=${className}`);
-                setCurrentClass(className); // Optionnel si on veut une transition immédiate
+                setCurrentClass(className);
               }}
             >
               <Text

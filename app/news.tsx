@@ -1,13 +1,7 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  Image,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, FlatList, Image } from "react-native";
 import { useData } from "@/context/DataContext";
+import { ScrollView } from "react-native-virtualized-view";
 
 const News = () => {
   const { news } = useData();
