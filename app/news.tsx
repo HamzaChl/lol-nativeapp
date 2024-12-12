@@ -50,8 +50,8 @@ const News = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     paddingTop: 30,
+    flex: 1,
     backgroundColor: "#f4f4f4",
   },
   title: {
@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   card: {
+    margin: 10,
     backgroundColor: "#fff",
     marginBottom: 20,
     borderRadius: 10,
