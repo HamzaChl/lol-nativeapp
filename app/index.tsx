@@ -14,12 +14,12 @@ import { useData } from "../context/DataContext";
 const classes = [
   { name: "Tank", icon: require("../assets/images/icons/tank.webp") },
   { name: "Mage", icon: require("../assets/images/icons/mage.webp") },
+  { name: "Assassin", icon: require("../assets/images/icons/slayer.webp") },
+  { name: "Marksman", icon: require("../assets/images/icons/marksman.webp") },
   {
-    name: "Controller",
+    name: "Support",
     icon: require("../assets/images/icons/controller.webp"),
   },
-  { name: "Marksman", icon: require("../assets/images/icons/marksman.webp") },
-  { name: "Slayer", icon: require("../assets/images/icons/slayer.webp") },
   { name: "Fighter", icon: require("../assets/images/icons/fighter.webp") },
 ];
 

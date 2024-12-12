@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,7 +6,6 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  ImageBackground,
   ScrollView,
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
@@ -26,9 +25,16 @@ const CLASSES = [
 const Characters = () => {
   const { data, toggleFavorite, favorites } = useData();
   const { class: selectedClass } = useLocalSearchParams();
-  const [currentClass, setCurrentClass] = useState(
-    typeof selectedClass === "string" ? selectedClass : "All"
-  );
+  const [currentClass, setCurrentClass] = useState("All");
+
+  // Synchroniser currentClass avec selectedClass
+  useEffect(() => {
+    if (typeof selectedClass === "string") {
+      setCurrentClass(selectedClass);
+    } else {
+      setCurrentClass("All");
+    }
+  }, [selectedClass]);
 
   const handlePress = (id: number) => {
     router.push(`/characters/${id}`);
@@ -88,7 +94,10 @@ const Characters = () => {
                 styles.classButton,
                 currentClass === className && styles.activeClassButton,
               ]}
-              onPress={() => setCurrentClass(className)}
+              onPress={() => {
+                router.push(`/characters?class=${className}`);
+                setCurrentClass(className); // Optionnel si on veut une transition immédiate
+              }}
             >
               <Text
                 style={[
@@ -118,13 +127,6 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 30,
     flex: 1,
-  },
-  text: {
-    fontSize: 20,
-    color: "#1E1E1E",
-    fontWeight: "500",
-    marginBottom: 10,
-    marginLeft: 20,
   },
   classSelector: {
     flexDirection: "row",

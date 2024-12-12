@@ -25,8 +25,8 @@ const Profile = () => {
 
     if (!permissionResult.granted) {
       Alert.alert(
-        "Permission refusée",
-        "Vous devez autoriser l'accès à la bibliothèque pour importer des images."
+        "Permission refused",
+        "You must authorize access to the library to import images."
       );
       return;
     }
@@ -38,7 +38,7 @@ const Profile = () => {
 
     if (!result.canceled && result.assets && result.assets.length > 0) {
       const uri = result.assets[0].uri;
-      await setProfileImage(uri); // Met à jour l'image dans AsyncStorage via le contexte
+      await setProfileImage(uri);
     }
   };
 
@@ -53,7 +53,11 @@ const Profile = () => {
           </View>
         )}
         <TouchableOpacity style={styles.button} onPress={handleChoosePhoto}>
-          <Text style={styles.buttonText}>Importer une photo</Text>
+          <Text
+            style={[styles.buttonText, { fontFamily: "BeaufortforLOL-Bold" }]}
+          >
+            Import a photo
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -91,15 +95,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   button: {
-    backgroundColor: "#007bff",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    backgroundColor: "#0F1922",
+    paddingVertical: 15,
+    paddingHorizontal: 40,
     borderRadius: 5,
   },
   buttonText: {
-    color: "#ffffff",
-    fontSize: 16,
-    fontWeight: "bold",
+    color: "#C19D4D",
+    fontSize: 17,
+    textTransform: "uppercase",
   },
 });
 
