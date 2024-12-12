@@ -1,17 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Image, FlatList } from "react-native";
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  ScrollView,
+} from "react-native";
+import { useData } from "@/context/DataContext";
 
 const News = () => {
-  const [newsData, setNewsData] = useState<any[]>([]);
+  const { news } = useData();
 
-  useEffect(() => {
-    fetch(
-      "https://raw.githubusercontent.com/HamzaChl/lol-nativejson/refs/heads/main/news.json"
-    )
-      .then((response) => response.json())
-      .then((data) => setNewsData(data))
-      .catch((error) => console.error("Error fetching news data:", error));
-  }, []);
+  if (!news) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Loading news...</Text>
+      </View>
+    );
+  }
 
   const renderItem = ({ item }: { item: any }) => (
     <View style={styles.card}>
@@ -25,17 +32,19 @@ const News = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={[styles.title, { fontFamily: "BeaufortforLOL-Bold" }]}>
-        NEWS
-      </Text>
-      <FlatList
-        data={newsData}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={renderItem}
-        contentContainerStyle={styles.newsList}
-      />
-    </View>
+    <ScrollView>
+      <View style={styles.container}>
+        <Text style={[styles.title, { fontFamily: "BeaufortforLOL-Bold" }]}>
+          NEWS
+        </Text>
+        <FlatList
+          data={news}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={renderItem}
+          contentContainerStyle={styles.newsList}
+        />
+      </View>
+    </ScrollView>
   );
 };
 
@@ -49,7 +58,9 @@ const styles = StyleSheet.create({
     color: "#C19D4D",
     textAlign: "center",
     fontSize: 40,
-    marginBottom: 40,
+    marginBottom: 20,
+    marginTop: 10,
+    textTransform: "uppercase",
   },
   newsList: {
     paddingHorizontal: 10,

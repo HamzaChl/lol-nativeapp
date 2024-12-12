@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import {
   View,
   Text,
@@ -8,9 +8,16 @@ import {
   Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { ProfileContext } from "../context/ProfileContext"; // Assurez-vous que le chemin est correct
 
 const Profile = () => {
-  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const profileContext = useContext(ProfileContext);
+
+  if (!profileContext) {
+    throw new Error("Profile must be used within a ProfileProvider");
+  }
+
+  const { profileImage, setProfileImage } = profileContext;
 
   const handleChoosePhoto = async () => {
     const permissionResult =
@@ -31,13 +38,12 @@ const Profile = () => {
 
     if (!result.canceled && result.assets && result.assets.length > 0) {
       const uri = result.assets[0].uri;
-      setProfileImage(uri);
+      await setProfileImage(uri); // Met à jour l'image dans AsyncStorage via le contexte
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Profil</Text>
       <View style={styles.profileContainer}>
         {profileImage ? (
           <Image source={{ uri: profileImage }} style={styles.profileImage} />
@@ -59,13 +65,6 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     flex: 1,
     backgroundColor: "#f5f5f5",
-  },
-  text: {
-    fontSize: 23,
-    color: "#000000",
-    fontWeight: "bold",
-    marginBottom: 30,
-    marginLeft: 20,
   },
   profileContainer: {
     alignItems: "center",

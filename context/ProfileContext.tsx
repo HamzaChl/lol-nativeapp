@@ -27,7 +27,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
           setProfileImage(storedImage);
         }
       } catch (error) {
-        console.error("Erreur lors du chargement de l'image du profil:", error);
+        console.error("Error loading profile image:", error);
       }
     };
     loadProfileImage();
@@ -42,10 +42,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
       }
       setProfileImage(uri);
     } catch (error) {
-      console.error(
-        "Erreur lors de la mise à jour de l'image du profil:",
-        error
-      );
+      console.error("Error updating profile image:", error);
     }
   };
 

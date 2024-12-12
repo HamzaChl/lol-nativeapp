@@ -130,7 +130,9 @@ const styles = StyleSheet.create({
     color: "#C19D4D",
     textAlign: "center",
     fontSize: 40,
-    marginBottom: 40,
+    marginBottom: 20,
+    marginTop: 10,
+    textTransform: "uppercase",
   },
 });
 

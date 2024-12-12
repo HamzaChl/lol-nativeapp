@@ -8,11 +8,19 @@ import React, {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Champion } from "@/types/types";
 
+interface NewsItem {
+  newsImg: string;
+  newsTitle: string;
+  newsSubTitle: string;
+  newsDate: string;
+}
+
 interface DataContextType {
   data: Champion[] | null;
   setData: React.Dispatch<React.SetStateAction<Champion[] | null>>;
   favorites: number[];
   toggleFavorite: (id: number) => void;
+  news: NewsItem[] | null;
 }
 
 export const DataContext = createContext<DataContextType | undefined>(
@@ -26,14 +34,22 @@ interface DataProviderProps {
 export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
   const [data, setData] = useState<Champion[] | null>(null);
   const [favorites, setFavorites] = useState<number[]>([]);
+  const [news, setNews] = useState<NewsItem[] | null>(null);
 
   useEffect(() => {
     fetch("https://sampleapis.assimilate.be/lol/champions")
       .then((response) => response.json())
       .then((data: Champion[]) => setData(data))
-      .catch((error) =>
-        console.error("Erreur lors du chargement des données:", error)
-      );
+      .catch((error) => console.error("Error loading data:", error));
+  }, []);
+
+  useEffect(() => {
+    fetch(
+      "https://raw.githubusercontent.com/HamzaChl/lol-nativejson/refs/heads/main/news.json"
+    )
+      .then((response) => response.json())
+      .then((data) => setNews(data))
+      .catch((error) => console.error("Error loading news data:", error));
   }, []);
 
   useEffect(() => {
@@ -44,7 +60,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
           setFavorites(JSON.parse(storedFavorites));
         }
       } catch (error) {
-        console.error("Erreur lors du chargement des favoris:", error);
+        console.error("Error loading favorites:", error);
       }
     };
     loadFavorites();
@@ -61,12 +77,14 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       setFavorites(updatedFavorites);
       await AsyncStorage.setItem("favorites", JSON.stringify(updatedFavorites));
     } catch (error) {
-      console.error("Erreur lors de la mise à jour des favoris:", error);
+      console.error("Error updating favorites:", error);
     }
   };
 
   return (
-    <DataContext.Provider value={{ data, setData, favorites, toggleFavorite }}>
+    <DataContext.Provider
+      value={{ data, setData, favorites, toggleFavorite, news }}
+    >
       {children}
     </DataContext.Provider>
   );

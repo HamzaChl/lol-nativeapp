@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  ScrollView,
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { useData } from "../../context/DataContext";
@@ -73,42 +74,43 @@ const Characters = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={[styles.title, { fontFamily: "BeaufortforLOL-Bold" }]}>
-        CHAMPIONS
-      </Text>
+    <ScrollView>
+      <View style={styles.container}>
+        <Text style={[styles.title, { fontFamily: "BeaufortforLOL-Bold" }]}>
+          CHAMPIONS
+        </Text>
 
-      {/* <Text style={styles.text}>Filters</Text> */}
-      <View style={styles.classSelector}>
-        {CLASSES.map((className) => (
-          <TouchableOpacity
-            key={className}
-            style={[
-              styles.classButton,
-              currentClass === className && styles.activeClassButton,
-            ]}
-            onPress={() => setCurrentClass(className)}
-          >
-            <Text
+        <View style={styles.classSelector}>
+          {CLASSES.map((className) => (
+            <TouchableOpacity
+              key={className}
               style={[
-                styles.classButtonText,
-                currentClass === className && styles.activeClassButtonText,
+                styles.classButton,
+                currentClass === className && styles.activeClassButton,
               ]}
+              onPress={() => setCurrentClass(className)}
             >
-              {className}
-            </Text>
-          </TouchableOpacity>
-        ))}
+              <Text
+                style={[
+                  styles.classButtonText,
+                  currentClass === className && styles.activeClassButtonText,
+                ]}
+              >
+                {className}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        <FlatList
+          data={filteredData}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+          numColumns={2}
+          contentContainerStyle={styles.flatListContent}
+          showsVerticalScrollIndicator={false}
+        />
       </View>
-      <FlatList
-        data={filteredData}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderItem}
-        numColumns={2}
-        contentContainerStyle={styles.flatListContent}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
+    </ScrollView>
   );
 };
 

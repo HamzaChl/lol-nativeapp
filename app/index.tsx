@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, router } from "expo-router";
 import {
   Text,
@@ -6,9 +6,10 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  ImageBackground,
   ScrollView,
+  FlatList,
 } from "react-native";
+import { useData } from "../context/DataContext";
 
 const classes = [
   { name: "Tank", icon: require("../assets/images/icons/tank.webp") },
@@ -23,9 +24,38 @@ const classes = [
 ];
 
 const Index = () => {
+  const { data } = useData();
+  const [articles, setArticles] = useState<
+    { id: number; title: string; description: string; image: string }[]
+  >([]);
+
+  const { news } = useData();
+
+  if (!news) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Loading news....</Text>
+      </View>
+    );
+  }
+
   const handlePress = () => {
     router.push(`/characters`);
   };
+
+  const handlePressNews = () => {
+    router.push(`/news`);
+  };
+
+  const renderItem = ({ item }: { item: any }) => (
+    <View style={styles.card}>
+      <Image source={{ uri: item.newsImg }} style={styles.newsImage} />
+      <View style={styles.cardContent}>
+        <Text style={styles.newsTitle}>{item.newsTitle}</Text>
+        <Text style={styles.newsSubTitle}>{item.newsSubTitle}</Text>
+      </View>
+    </View>
+  );
 
   return (
     <ScrollView>
@@ -35,23 +65,7 @@ const Index = () => {
             source={require("@/assets/images/home.jpg")}
             style={styles.homeImage}
           />
-          <View style={styles.classes}>
-            {classes.map((classItem) => (
-              <Link
-                key={classItem.name}
-                href={`/characters?class=${classItem.name}`}
-                asChild
-              >
-                <TouchableOpacity style={styles.classIcon}>
-                  <Image
-                    source={classItem.icon}
-                    style={styles.iconImage}
-                    resizeMode="contain"
-                  />
-                </TouchableOpacity>
-              </Link>
-            ))}
-          </View>
+
           <View style={styles.textContainer}>
             <Text style={styles.subTitle}>CHOOSE YOUR</Text>
             <Text style={[styles.title, { fontFamily: "BeaufortforLOL-Bold" }]}>
@@ -62,6 +76,24 @@ const Index = () => {
               teammates, or something in between, there’s a spot for you on the
               Rift.
             </Text>
+            <View style={styles.classes}>
+              {classes.map((classItem) => (
+                <Link
+                  key={classItem.name}
+                  href={`/characters?class=${classItem.name}`}
+                  asChild
+                >
+                  <TouchableOpacity style={styles.classIcon}>
+                    <Image
+                      source={classItem.icon}
+                      style={styles.iconImage}
+                      resizeMode="contain"
+                    />
+                    <Text style={styles.classText}>{classItem.name}</Text>
+                  </TouchableOpacity>
+                </Link>
+              ))}
+            </View>
             <TouchableOpacity
               style={styles.button}
               onPress={() => handlePress()}
@@ -73,14 +105,38 @@ const Index = () => {
                     { fontFamily: "BeaufortforLOL-Bold" },
                   ]}
                 >
-                  Discover More Champions
+                  Discover our Champions
                 </Text>
               </View>
             </TouchableOpacity>
           </View>
+          <Text style={[styles.subTitle]}>DISCOVER OUR</Text>
           <Text style={[styles.title, { fontFamily: "BeaufortforLOL-Bold" }]}>
             Latest news
           </Text>
+          <View style={styles.container}>
+            <FlatList
+              data={news.slice(0, 2)}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderItem}
+              contentContainerStyle={styles.newsList}
+            />
+          </View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => handlePressNews()}
+          >
+            <View>
+              <Text
+                style={[
+                  styles.buttonText,
+                  { fontFamily: "BeaufortforLOL-Bold" },
+                ]}
+              >
+                See more news...
+              </Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
@@ -91,13 +147,6 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 30,
     flex: 1,
-  },
-  text: {
-    fontSize: 23,
-    color: "#000000",
-    fontWeight: "bold",
-    marginBottom: 30,
-    marginLeft: 20,
   },
   homeImage: {
     width: "100%",
@@ -125,6 +174,12 @@ const styles = StyleSheet.create({
   iconImage: {
     width: 40,
     height: 40,
+  },
+  classText: {
+    marginTop: 5,
+    color: "#C19D4D",
+    fontSize: 12,
+    textAlign: "center",
   },
   title: {
     color: "#C19D4D",
@@ -161,6 +216,39 @@ const styles = StyleSheet.create({
     color: "#C19D4D",
     fontSize: 17,
     textTransform: "uppercase",
+  },
+  newsList: {
+    paddingHorizontal: 0,
+  },
+  card: {
+    backgroundColor: "#fff",
+    marginBottom: 20,
+    borderRadius: 10,
+    overflow: "hidden",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  newsImage: {
+    width: "100%",
+    height: 200,
+    resizeMode: "cover",
+  },
+  cardContent: {
+    padding: 15,
+  },
+  newsTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 10,
+  },
+  newsSubTitle: {
+    fontSize: 14,
+    color: "#666",
+    marginBottom: 10,
   },
 });
 
