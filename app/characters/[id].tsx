@@ -90,10 +90,12 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   name: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: "bold",
     color: "#C19D4D",
     textAlign: "center",
+    textTransform: "uppercase",
+    fontFamily: "BeaufortforLOL-Bold",
   },
   title: {
     fontSize: 18,
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
   },
   section: {
     marginBottom: 20,
-    padding: 10,
+    padding: 20,
     backgroundColor: "#0F1922",
     borderRadius: 10,
   },
