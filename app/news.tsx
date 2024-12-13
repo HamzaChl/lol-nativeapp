@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 40,
     marginBottom: 20,
-    // marginTop: 10,
     textTransform: "uppercase",
   },
   newsList: {
