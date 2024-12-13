@@ -176,9 +176,9 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   statKey: {
-    color: "#C19D4D",
+    color: "#000000",
     fontSize: 14,
-    fontWeight: "bold",
+    fontWeight: "normal",
   },
   statValue: {
     color: "#939393",

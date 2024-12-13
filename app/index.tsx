@@ -33,8 +33,12 @@ const Index = () => {
 
   if (!news) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Loading news....</Text>
+      <View style={styles.loadingScreen}>
+        <Image
+          source={require("@/assets/images/logo.png")}
+          style={styles.homeImage}
+        />
+        <Text>Loading data...</Text>
       </View>
     );
   }
@@ -180,6 +184,12 @@ const styles = StyleSheet.create({
     color: "#C19D4D",
     fontSize: 12,
     textAlign: "center",
+  },
+  loadingScreen: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    alignContent: "center",
   },
   title: {
     color: "#C19D4D",

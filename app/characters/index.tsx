@@ -73,9 +73,9 @@ const Characters = () => {
           onPress={() => toggleFavorite(item.id)}
         >
           <FontAwesome
-            name={isFavorite ? "heart" : "heart-o"}
+            name={isFavorite ? "heart" : "heart"}
             size={26}
-            color={isFavorite ? "red" : "white"}
+            color={isFavorite ? "red" : "#ffffffb4"}
           />
         </TouchableOpacity>
       </TouchableOpacity>
