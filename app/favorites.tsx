@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   flatListContent: {
-    paddingHorizontal: 10,
+    // paddingHorizontal: 10,
   },
   championCard: {
     margin: 10,

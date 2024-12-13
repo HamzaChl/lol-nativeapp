@@ -8,7 +8,7 @@ import {
   Image,
 } from "react-native";
 import { ScrollView } from "react-native-virtualized-view";
-import { router, useLocalSearchParams } from "expo-router";
+import { Link, router, useLocalSearchParams } from "expo-router";
 import { useData } from "../../context/DataContext";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
@@ -37,6 +37,10 @@ const Characters = () => {
 
   const handlePress = (id: number) => {
     router.push(`/characters/${id}`);
+  };
+
+  const handlePressAdd = () => {
+    router.push(`/characters/add`);
   };
 
   const filteredData =
@@ -71,7 +75,7 @@ const Characters = () => {
           <FontAwesome
             name={isFavorite ? "heart" : "heart-o"}
             size={26}
-            color={isFavorite ? "red" : "#C19D4D"}
+            color={isFavorite ? "red" : "white"}
           />
         </TouchableOpacity>
       </TouchableOpacity>
@@ -79,46 +83,53 @@ const Characters = () => {
   };
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={[styles.title, { fontFamily: "BeaufortforLOL-Bold" }]}>
-          CHAMPIONS
-        </Text>
-
-        <View style={styles.classSelector}>
-          {CLASSES.map((className) => (
-            <TouchableOpacity
-              key={className}
-              style={[
-                styles.classButton,
-                currentClass === className && styles.activeClassButton,
-              ]}
-              onPress={() => {
-                router.push(`/characters?class=${className}`);
-                setCurrentClass(className);
-              }}
-            >
-              <Text
-                style={[
-                  styles.classButtonText,
-                  currentClass === className && styles.activeClassButtonText,
-                ]}
-              >
-                {className}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <FlatList
-          data={filteredData}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderItem}
-          numColumns={2}
-          contentContainerStyle={styles.flatListContent}
-          showsVerticalScrollIndicator={false}
-        />
+    <View>
+      <View style={styles.addContent}>
+        <Link href={`/characters/add`} asChild>
+          <FontAwesome name="plus" size={24} color="#C19D4D" />
+        </Link>
       </View>
-    </ScrollView>
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={[styles.title, { fontFamily: "BeaufortforLOL-Bold" }]}>
+            CHAMPIONS
+          </Text>
+
+          <View style={styles.classSelector}>
+            {CLASSES.map((className) => (
+              <TouchableOpacity
+                key={className}
+                style={[
+                  styles.classButton,
+                  currentClass === className && styles.activeClassButton,
+                ]}
+                onPress={() => {
+                  router.push(`/characters?class=${className}`);
+                  setCurrentClass(className);
+                }}
+              >
+                <Text
+                  style={[
+                    styles.classButtonText,
+                    currentClass === className && styles.activeClassButtonText,
+                  ]}
+                >
+                  {className}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <FlatList
+            data={filteredData}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={renderItem}
+            numColumns={2}
+            contentContainerStyle={styles.flatListContent}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -215,6 +226,19 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 40,
     marginBottom: 20,
+  },
+  addContent: {
+    position: "absolute",
+    width: 70,
+    height: 70,
+    backgroundColor: "#ffffff",
+    top: 630,
+    right: 20,
+    zIndex: 2,
+    borderRadius: "50%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
