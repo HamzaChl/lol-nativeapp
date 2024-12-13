@@ -1,14 +1,16 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Image,
   TouchableOpacity,
+  TextInput,
   Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { ProfileContext } from "../context/ProfileContext"; // Assurez-vous que le chemin est correct
+import { ProfileContext } from "../context/ProfileContext";
+import { FontAwesome } from "@expo/vector-icons";
 
 const Profile = () => {
   const profileContext = useContext(ProfileContext);
@@ -17,7 +19,19 @@ const Profile = () => {
     throw new Error("Profile must be used within a ProfileProvider");
   }
 
-  const { profileImage, setProfileImage } = profileContext;
+  const {
+    profileImage,
+    setProfileImage,
+    userName,
+    setUserName,
+    email,
+    setEmail,
+  } = profileContext;
+
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
+  const [editingUserName, setEditingUserName] = useState(userName);
+  const [editingEmail, setEditingEmail] = useState(email);
 
   const handleChoosePhoto = async () => {
     const permissionResult =
@@ -25,8 +39,8 @@ const Profile = () => {
 
     if (!permissionResult.granted) {
       Alert.alert(
-        "Permission refused",
-        "You must authorize access to the library to import images."
+        "Permission denied",
+        "You need to allow access to the library to import images."
       );
       return;
     }
@@ -42,6 +56,16 @@ const Profile = () => {
     }
   };
 
+  const handleSaveName = () => {
+    setIsEditingName(false);
+    setUserName(editingUserName);
+  };
+
+  const handleSaveEmail = () => {
+    setIsEditingEmail(false);
+    setEmail(editingEmail);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>
@@ -52,13 +76,72 @@ const Profile = () => {
             <Text style={styles.placeholderText}>Photo</Text>
           </View>
         )}
+
         <TouchableOpacity style={styles.button} onPress={handleChoosePhoto}>
-          <Text
-            style={[styles.buttonText, { fontFamily: "BeaufortforLOL-Bold" }]}
-          >
-            Import a photo
-          </Text>
+          <Text style={styles.buttonText}>Import Photo</Text>
         </TouchableOpacity>
+
+        <View style={styles.profileDetails}>
+          <View style={styles.fieldContainer}>
+            <Text style={styles.label}>Username</Text>
+            {isEditingName ? (
+              <>
+                <TextInput
+                  style={styles.input}
+                  value={editingUserName}
+                  onChangeText={setEditingUserName}
+                  placeholder="Enter your username"
+                />
+                <TouchableOpacity
+                  onPress={handleSaveName}
+                  style={styles.saveIcon}
+                >
+                  <FontAwesome name="check" size={17} color="limegreen" />
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                <Text style={styles.text}>{userName || "Username"}</Text>
+                <TouchableOpacity
+                  onPress={() => setIsEditingName(true)}
+                  style={styles.editIcon}
+                >
+                  <FontAwesome name="edit" size={17} color="black" />
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+
+          <View style={styles.fieldContainer}>
+            <Text style={styles.label}>Email</Text>
+            {isEditingEmail ? (
+              <>
+                <TextInput
+                  style={styles.input}
+                  value={editingEmail}
+                  onChangeText={setEditingEmail}
+                  placeholder="Enter your email"
+                />
+                <TouchableOpacity
+                  onPress={handleSaveEmail}
+                  style={styles.saveIcon}
+                >
+                  <FontAwesome name="check" size={17} color="green" />
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                <Text style={styles.text}>{email || "Email"}</Text>
+                <TouchableOpacity
+                  onPress={() => setIsEditingEmail(true)}
+                  style={styles.editIcon}
+                >
+                  <FontAwesome name="edit" size={17} color="black" />
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -99,11 +182,46 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 5,
+    marginTop: 20,
   },
   buttonText: {
     color: "#C19D4D",
     fontSize: 17,
     textTransform: "uppercase",
+  },
+  profileDetails: {
+    marginTop: 30,
+    width: "100%",
+    paddingHorizontal: 20,
+  },
+  fieldContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 15,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginRight: 10,
+    width: 120,
+  },
+  input: {
+    flex: 1,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 5,
+    fontSize: 16,
+  },
+  text: {
+    fontSize: 16,
+    color: "#555",
+  },
+  editIcon: {
+    marginLeft: 10,
+  },
+  saveIcon: {
+    marginLeft: 10,
   },
 });
 
