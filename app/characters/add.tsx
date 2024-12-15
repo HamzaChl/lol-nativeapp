@@ -104,7 +104,7 @@ const AddPage: React.FC = () => {
   const handleInputChange = (
     key: keyof Champion,
     value: string | string[],
-    nestedKey?: keyof ChampionStats
+    nestedKey?: keyof ChampionStats | keyof Champion["info"]
   ) => {
     setChampion((prevState) => {
       if (key === "image") {
@@ -117,15 +117,26 @@ const AddPage: React.FC = () => {
         };
       }
 
-      if (nestedKey && key === "stats") {
-        return {
-          ...prevState,
-          stats: {
-            ...prevState.stats,
-            [nestedKey]: value as string,
-          },
-        };
+      if (nestedKey) {
+        if (key === "stats") {
+          return {
+            ...prevState,
+            stats: {
+              ...prevState.stats,
+              [nestedKey]: value as string,
+            },
+          };
+        } else if (key === "info") {
+          return {
+            ...prevState,
+            info: {
+              ...prevState.info,
+              [nestedKey]: value as string,
+            },
+          };
+        }
       }
+
       return {
         ...prevState,
         [key]: value,
@@ -233,14 +244,12 @@ const AddPage: React.FC = () => {
             value={champion.name}
             onChangeText={(text) => handleInputChange("name", text)}
           />
-
           <TextInput
             style={styles.input}
             placeholder="Title"
             value={champion.title}
             onChangeText={(text) => handleInputChange("title", text)}
           />
-
           <TextInput
             style={[styles.input, styles.textArea]}
             placeholder="Blurb"
@@ -248,7 +257,6 @@ const AddPage: React.FC = () => {
             multiline
             onChangeText={(text) => handleInputChange("blurb", text)}
           />
-
           <Text style={styles.subtitle}>Tags:</Text>
           <View style={styles.tagsContainer}>
             {champion.tags.map((tag, index) => (
@@ -277,14 +285,25 @@ const AddPage: React.FC = () => {
             </Picker>
             <Button title="Add Tag" onPress={handleAddTag} />
           </View>
-
           <TextInput
             style={styles.input}
             placeholder="Partype"
             value={champion.partype}
             onChangeText={(text) => handleInputChange("partype", text)}
           />
-
+          <Text style={styles.subtitle}>Infos:</Text>
+          {Object.keys(champion.info).map((key) => (
+            <TextInput
+              key={key}
+              style={styles.input}
+              placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+              keyboardType="numeric"
+              value={champion.info[key as keyof Champion["info"]]}
+              onChangeText={(text) =>
+                handleInputChange("info", text, key as keyof Champion["info"])
+              }
+            />
+          ))}
           <Text style={styles.subtitle}>Stats:</Text>
           {Object.keys(champion.stats).map((stat) => (
             <TextInput
@@ -305,14 +324,12 @@ const AddPage: React.FC = () => {
             value={champion.image.loading}
             onChangeText={(text) => handleInputChange("image", text)}
           />
-
           {champion.image.loading ? (
             <Image
               source={{ uri: champion.image.loading }}
               style={styles.imagePreview}
             />
           ) : null}
-
           <TouchableOpacity
             style={styles.button}
             onPress={() => handleSubmit()}
