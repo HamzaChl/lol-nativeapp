@@ -22,8 +22,8 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
   children,
 }) => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
-  const [userName, setUserName] = useState<string>(""); // Valeur par défaut vide
-  const [email, setEmail] = useState<string>(""); // Valeur par défaut vide
+  const [userName, setUserName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
   useEffect(() => {
     const loadProfileData = async () => {

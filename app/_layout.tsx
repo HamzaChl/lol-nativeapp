@@ -1,16 +1,24 @@
 import { Tabs } from "expo-router";
-import { StyleSheet, Image, View, Animated } from "react-native";
+import { StyleSheet, Image, View, TouchableOpacity } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { DataProvider } from "../context/DataContext";
 import { useFonts } from "expo-font";
 import { ProfileProvider } from "@/context/ProfileContext";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const RootLayout = () => {
   const [fontsLoaded] = useFonts({
     "BeaufortforLOL-Bold": require("../assets/fonts/BeaufortforLOL-Bold.ttf"),
     "BeaufortforLOL-Medium": require("../assets/fonts/BeaufortforLOL-Medium.ttf"),
   });
+
+  // État pour gérer l'icône de notification
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+
+  const toggleNotifications = () => {
+    setNotificationsEnabled((prev) => !prev);
+  };
 
   return (
     <ProfileProvider>
@@ -26,7 +34,18 @@ const RootLayout = () => {
                   source={require("../assets/images/logo.png")}
                   style={styles.headerImage}
                 />
-                <FontAwesome name="bell" size={24} color="#C19D4D" />
+
+                <TouchableOpacity onPress={toggleNotifications}>
+                  {notificationsEnabled ? (
+                    <Ionicons name="notifications" size={24} color="#C19D4D" />
+                  ) : (
+                    <Ionicons
+                      name="notifications-off"
+                      size={24}
+                      color="#C19D4D"
+                    />
+                  )}
+                </TouchableOpacity>
               </View>
             ),
             tabBarStyle: styles.tabBar,

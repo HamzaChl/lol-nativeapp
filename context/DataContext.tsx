@@ -94,7 +94,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       content: {
         title: "Checkout the latest news !",
         body: "See the latest League Of Legends news",
-        data: { screen: "News" },
+        data: { screen: "news" },
       },
       trigger: {
         seconds: 1,
@@ -117,7 +117,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
   useEffect(() => {
     setTimeout(() => {
       askForNotificationPermissions();
-    }, 6000);
+    }, 100);
     fetchChampions();
   }, []);
 
