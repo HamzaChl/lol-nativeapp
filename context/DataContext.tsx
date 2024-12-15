@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Champion } from "@/types/types";
+import * as Notifications from "expo-notifications";
 
 interface NewsItem {
   newsImg: string;
@@ -21,6 +22,7 @@ interface DataContextType {
   favorites: number[];
   toggleFavorite: (id: number) => void;
   news: NewsItem[] | null;
+  fetchChampions: () => void;
 }
 
 export const DataContext = createContext<DataContextType | undefined>(
@@ -36,33 +38,91 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
   const [favorites, setFavorites] = useState<number[]>([]);
   const [news, setNews] = useState<NewsItem[] | null>(null);
 
-  useEffect(() => {
-    fetch("https://sampleapis.assimilate.be/lol/champions")
-      .then((response) => response.json())
-      .then((data: Champion[]) => setData(data))
-      .catch((error) => console.error("Error loading data:", error));
-  }, []);
-
-  useEffect(() => {
-    fetch(
-      "https://raw.githubusercontent.com/HamzaChl/lol-nativejson/refs/heads/main/news.json"
-    )
-      .then((response) => response.json())
-      .then((data) => setNews(data))
-      .catch((error) => console.error("Error loading news data:", error));
-  }, []);
-
-  useEffect(() => {
-    const loadFavorites = async () => {
-      try {
-        const storedFavorites = await AsyncStorage.getItem("favorites");
-        if (storedFavorites) {
-          setFavorites(JSON.parse(storedFavorites));
+  const fetchChampions = async () => {
+    try {
+      const response = await fetch(
+        "https://sampleapis.assimilate.be/lol/champions",
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhhbXphLmNodGFpYmlAc3R1ZGVudC5hcC5iZSIsImlhdCI6MTczNDI2OTA1M30.7M_HAGvg87PHPQB8DEH72Zk6oFNteXZjSjT17L-Jgc8",
+          },
         }
-      } catch (error) {
-        console.error("Error loading favorites:", error);
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    };
+
+      const newData = await response.json();
+      setData(newData);
+    } catch (error) {
+      console.error("Error loading data:", error);
+    }
+  };
+
+  const fetchNews = async () => {
+    try {
+      const response = await fetch(
+        "https://raw.githubusercontent.com/HamzaChl/lol-nativejson/refs/heads/main/news.json"
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const newData = await response.json();
+      setNews(newData);
+    } catch (error) {
+      console.error("Error loading news data:", error);
+    }
+  };
+
+  const askForNotificationPermissions = async () => {
+    const { status } = await Notifications.requestPermissionsAsync();
+    if (status !== "granted") {
+      alert("Permission for notifications not granted!");
+    }
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: true,
+      }),
+    });
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Checkout the latest news !",
+        body: "See the latest League Of Legends news",
+        data: { screen: "News" },
+      },
+      trigger: {
+        seconds: 1,
+        channelId: "news",
+      },
+    });
+  };
+
+  const loadFavorites = async () => {
+    try {
+      const storedFavorites = await AsyncStorage.getItem("favorites");
+      if (storedFavorites) {
+        setFavorites(JSON.parse(storedFavorites));
+      }
+    } catch (error) {
+      console.error("Error loading favorites:", error);
+    }
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      askForNotificationPermissions();
+    }, 6000);
+    fetchChampions();
+  }, []);
+
+  useEffect(() => {
+    fetchNews();
     loadFavorites();
   }, []);
 
@@ -83,7 +143,14 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
   return (
     <DataContext.Provider
-      value={{ data, setData, favorites, toggleFavorite, news }}
+      value={{
+        data,
+        setData,
+        favorites,
+        toggleFavorite,
+        news,
+        fetchChampions,
+      }}
     >
       {children}
     </DataContext.Provider>

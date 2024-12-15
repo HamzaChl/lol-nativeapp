@@ -119,6 +119,11 @@ const Characters = () => {
               </TouchableOpacity>
             ))}
           </View>
+
+          <Text style={styles.counter}>
+            {`Champions found: ${filteredData.length}`}
+          </Text>
+
           <FlatList
             data={filteredData}
             keyExtractor={(item) => item.id.toString()}
@@ -239,6 +244,12 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+  },
+  counter: {
+    color: "#9c9c9c",
+    textAlign: "center",
+    fontSize: 14,
+    marginBottom: 10,
   },
 });
 

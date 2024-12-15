@@ -1,9 +1,10 @@
 import { Tabs } from "expo-router";
-import { StyleSheet, Image, View } from "react-native";
+import { StyleSheet, Image, View, Animated } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DataProvider } from "../context/DataContext";
 import { useFonts } from "expo-font";
 import { ProfileProvider } from "@/context/ProfileContext";
+import { useEffect, useState } from "react";
 
 const RootLayout = () => {
   const [fontsLoaded] = useFonts({
