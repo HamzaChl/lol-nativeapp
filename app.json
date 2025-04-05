@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Leauge Of Legends - Native app",
-    "slug": "Leauge Of Legends - Native app",
+    "slug": "league-of-legends-native-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/favicon.png",
@@ -12,14 +12,17 @@
       "supportsTablet": true,
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "Cette application a besoin d'accéder à votre bibliothèque pour importer des images.",
-        "NSCameraUsageDescription": "Cette application a besoin d'accéder à votre appareil photo pour capturer des images."
-      }
+        "NSCameraUsageDescription": "Cette application a besoin d'accéder à votre appareil photo pour capturer des images.",
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "bundleIdentifier": "com.hamzaachl.leagueoflegendsnativeapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.hamzaachl.leagueoflegendsnativeapp"
     },
     "web": {
       "bundler": "metro",
@@ -40,6 +43,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "6284d589-336a-4255-ac51-c1691a94e01b"
+      }
     }
   }
 }

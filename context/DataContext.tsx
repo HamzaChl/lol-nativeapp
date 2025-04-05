@@ -41,13 +41,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
   const fetchChampions = async () => {
     try {
       const response = await fetch(
-        "https://sampleapis.assimilate.be/lol/champions",
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhhbXphLmNodGFpYmlAc3R1ZGVudC5hcC5iZSIsImlhdCI6MTczNDI2OTA1M30.7M_HAGvg87PHPQB8DEH72Zk6oFNteXZjSjT17L-Jgc8",
-          },
-        }
+        "https://raw.githubusercontent.com/HamzaChl/champions/main/champions.json"
       );
 
       if (!response.ok) {
